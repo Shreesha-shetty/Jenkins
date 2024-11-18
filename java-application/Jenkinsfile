@@ -1,0 +1,29 @@
+pipeline {
+    agent any  // Use any available agent
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm  // Checkout the code from Git
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean install'  // Build the project using Maven
+            }
+        }
+
+        stage('Run Java Application') {
+            steps {
+                sh 'java -jar target/hello-world-1.0-SNAPSHOT.jar'  // Run the .jar file created by Maven
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+    }
+}
